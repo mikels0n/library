@@ -1,6 +1,14 @@
 const myLibrary = [];
 const libraryContainer = document.querySelector('.library-container')
 const addBook = document.querySelector('#add-book')
+const modal = document.querySelector(".modal");
+const overlay = document.querySelector(".overlay");
+const openModalBtn = document.querySelector(".btn-open");
+const closeModalBtn = document.querySelector(".btn-close");
+
+const test = document.querySelector('#test');
+const dialog = document.getElementById('dialog');
+
 
 
 function Book(title, author, pages, read) {
@@ -25,6 +33,8 @@ addBook.addEventListener('click', () => {
     var book = new Book(title, author, pages, read);
     addBookToLibrary(book);
     addBookCard(book);
+    inputReset();
+    closeModal();
 })
 
 const theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', '295 pages', 'finished');
@@ -56,3 +66,26 @@ function addBookCard(book) {
 }
 
 loadBooks(myLibrary);
+
+function inputReset() {
+    document.getElementById('title').value = ""
+    document.getElementById('author').value = ""
+    document.getElementById('pages').value = ""
+}
+
+const openModal = function () {
+    modal.classList.remove("hidden");
+    overlay.classList.remove("hidden");
+};
+
+const closeModal = function () {
+    modal.classList.add("hidden");
+    overlay.classList.add("hidden");
+};
+
+closeModalBtn.addEventListener('click', closeModal)
+openModalBtn.addEventListener('click', openModal)
+
+test.addEventListener('click',() => {
+    dialog.showModal();
+})
