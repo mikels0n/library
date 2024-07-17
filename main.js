@@ -24,13 +24,35 @@ addBook.addEventListener('click', () => {
     var read = document.querySelector('input[name="read"]:checked').value;
     var book = new Book(title, author, pages, read);
     addBookToLibrary(book);
-    console.log(myLibrary);
+    addBookCard(book);
 })
 
-const theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', '295 pages', 'yes');
-const rur = new Book('R.U.R.', 'Karel Čapek', '102 pages', );
+const theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', '295 pages', 'finished');
+const rur = new Book('R.U.R.', 'Karel Čapek', '102 pages', 'not read yet');
 
-addBookToLibrary(theHobbit)
+addBookToLibrary(theHobbit);
 addBookToLibrary(rur);
 
-console.log(myLibrary);
+function loadBooks(booksToLoad) {
+    booksToLoad.forEach(addBookCard);
+}
+
+function addBookCard(book) {
+    var cardDiv = document.createElement('div');
+    cardDiv.classList.add('card');
+    var titleDiv = document.createElement('div');
+    var authorDiv = document.createElement('div');
+    var pagesDiv = document.createElement('div');
+    var readDiv = document.createElement('div');
+    titleDiv.innerHTML = book.title;
+    authorDiv.innerHTML = book.author;
+    pagesDiv.innerHTML = book.pages;
+    readDiv.innerHTML = book.read;
+    libraryContainer.appendChild(cardDiv);
+    cardDiv.appendChild(titleDiv);
+    cardDiv.appendChild(authorDiv);
+    cardDiv.appendChild(pagesDiv);
+    cardDiv.appendChild(readDiv);
+}
+
+loadBooks(myLibrary);
