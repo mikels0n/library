@@ -1,15 +1,8 @@
 const myLibrary = [];
 const libraryContainer = document.querySelector('.library-container')
 const addBook = document.querySelector('#add-book')
-const modal = document.querySelector(".modal");
-const overlay = document.querySelector(".overlay");
-const openModalBtn = document.querySelector(".btn-open");
-const closeModalBtn = document.querySelector(".btn-close");
-
-const test = document.querySelector('#test');
-const dialog = document.getElementById('dialog');
-
-
+const dialog = document.querySelector("dialog");
+const openModal = document.querySelector('#open-modal')
 
 function Book(title, author, pages, read) {
     this.title = title;
@@ -33,8 +26,7 @@ addBook.addEventListener('click', () => {
     var book = new Book(title, author, pages, read);
     addBookToLibrary(book);
     addBookCard(book);
-    inputReset();
-    closeModal();
+    resetInputs();
 })
 
 const theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', '295 pages', 'finished');
@@ -63,29 +55,19 @@ function addBookCard(book) {
     cardDiv.appendChild(authorDiv);
     cardDiv.appendChild(pagesDiv);
     cardDiv.appendChild(readDiv);
+    dialog.close();
+
+}
+
+function resetInputs() {
+    document.getElementById('title').value = "";
+    document.getElementById('author').value = "";
+    document.getElementById('pages').value = "";
+    document.querySelector('input[name="read"]:checked').checked = false;
 }
 
 loadBooks(myLibrary);
 
-function inputReset() {
-    document.getElementById('title').value = ""
-    document.getElementById('author').value = ""
-    document.getElementById('pages').value = ""
-}
-
-const openModal = function () {
-    modal.classList.remove("hidden");
-    overlay.classList.remove("hidden");
-};
-
-const closeModal = function () {
-    modal.classList.add("hidden");
-    overlay.classList.add("hidden");
-};
-
-closeModalBtn.addEventListener('click', closeModal)
-openModalBtn.addEventListener('click', openModal)
-
-test.addEventListener('click',() => {
+openModal.addEventListener('click', () => {
     dialog.showModal();
 })
