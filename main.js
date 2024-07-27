@@ -3,6 +3,7 @@ const libraryContainer = document.querySelector('.library-container')
 const addBook = document.querySelector('#add-book')
 const dialog = document.querySelector("dialog");
 const openModal = document.querySelector('#open-modal')
+const closeButton = document.getElementById('close-button')
 const theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', '295 pages', 'finished');
 const rur = new Book('R.U.R.', 'Karel Čapek', '102 pages', 'not read yet');
 
@@ -75,8 +76,11 @@ function addBookCard(book) {
     toggleReadButton.addEventListener('click', () => {
         toggleRead(book);
         readDiv.innerHTML = book.read;
-        console.log(myLibrary);
     });
+
+    closeButton.addEventListener('click', () => {
+        dialog.close();
+    })
 
     libraryContainer.appendChild(cardDiv);
     cardDiv.appendChild(titleDiv);
@@ -85,7 +89,7 @@ function addBookCard(book) {
     cardDiv.appendChild(readDiv);
     cardDiv.appendChild(editButton);
     cardDiv.appendChild(deleteButton);
-    cardDiv.appendChild(toggleReadButton);
+    cardDiv.appendChild(toggleReadButton)
 
     dialog.close();
 }
@@ -114,6 +118,7 @@ function editBookDialogPopUp(bookTitle) {
         document.getElementById('not-read-yet').checked = true;
     }
     addBook.hidden = true;
+    closeButton.hidden = true;
 
     let editButton = document.createElement('button');
     editButton.innerHTML = 'EDIT BOOK';
@@ -134,6 +139,8 @@ function editBookDialogPopUp(bookTitle) {
         editButton.remove();
         discardChangesButton.remove();
         dialog.close();
+        addBook.hidden = false;
+        closeButton.hidden = false;
     })
 }
 
