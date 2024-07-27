@@ -3,6 +3,8 @@ const libraryContainer = document.querySelector('.library-container')
 const addBook = document.querySelector('#add-book')
 const dialog = document.querySelector("dialog");
 const openModal = document.querySelector('#open-modal')
+const theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', '295 pages', 'finished');
+const rur = new Book('R.U.R.', 'Karel Čapek', '102 pages', 'not read yet');
 
 function Book(title, author, pages, read) {
     this.title = title;
@@ -18,45 +20,55 @@ function addBookToLibrary(book) {
     myLibrary.push(book)
 }
 
+function loadCredentials() {
+    let title = document.getElementById('title').value;
+    let author = document.getElementById('author').value;
+    let pages = document.getElementById('pages').value;
+    let read = document.querySelector('input[name="read"]:checked').value;
+    let book = new Book(title, author, pages, read);
+    return book;
+}
+
 addBook.addEventListener('click', () => {
-    var title = document.getElementById('title').value;
-    var author = document.getElementById('author').value;
-    var pages = document.getElementById('pages').value;
-    var read = document.querySelector('input[name="read"]:checked').value;
-    var book = new Book(title, author, pages, read);
-    addBookToLibrary(book);
-    addBookCard(book);
+    addBookToLibrary(loadCredentials());
+    addBookCard(loadCredentials());
     resetInputs();
 })
 
-const theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', '295 pages', 'finished');
-const rur = new Book('R.U.R.', 'Karel Čapek', '102 pages', 'not read yet');
-
-addBookToLibrary(theHobbit);
-addBookToLibrary(rur);
-
 function loadBooks(booksToLoad) {
+    libraryContainer.innerHTML = '';
     booksToLoad.forEach(addBookCard);
 }
 
 function addBookCard(book) {
-    var cardDiv = document.createElement('div');
+    let cardDiv = document.createElement('div');
     cardDiv.classList.add('card');
-    var titleDiv = document.createElement('div');
-    var authorDiv = document.createElement('div');
-    var pagesDiv = document.createElement('div');
-    var readDiv = document.createElement('div');
+    let titleDiv = document.createElement('div');
+    let authorDiv = document.createElement('div');
+    let pagesDiv = document.createElement('div');
+    let readDiv = document.createElement('div');
+    const editButton = document.createElement('button');
+
     titleDiv.innerHTML = book.title;
     authorDiv.innerHTML = book.author;
     pagesDiv.innerHTML = book.pages;
     readDiv.innerHTML = book.read;
+
+    editButton.innerHTML = 'EDIT';
+    editButton.classList.add('edit-button');
+    editButton.id = book.title;
+    editButton.addEventListener('click', () => {
+        editBookDialogPopUp(book.title)
+    });
+
     libraryContainer.appendChild(cardDiv);
     cardDiv.appendChild(titleDiv);
     cardDiv.appendChild(authorDiv);
     cardDiv.appendChild(pagesDiv);
     cardDiv.appendChild(readDiv);
-    dialog.close();
+    cardDiv.appendChild(editButton);
 
+    dialog.close();
 }
 
 function resetInputs() {
@@ -66,8 +78,55 @@ function resetInputs() {
     document.querySelector('input[name="read"]:checked').checked = false;
 }
 
-loadBooks(myLibrary);
-
 openModal.addEventListener('click', () => {
     dialog.showModal();
 })
+
+function editBookDialogPopUp(bookTitle) {
+    const book = myLibrary.find(b => b.title === bookTitle);
+    dialog.showModal();
+    document.getElementById('title').value = book.title;
+    document.getElementById('author').value = book.author;
+    document.getElementById('pages').value = book.pages;
+    if (book.read === 'finished') {
+        document.getElementById('finished').checked = true;
+    }
+    else {
+        document.getElementById('not-read-yet').checked = true;
+    }
+    addBook.hidden = true;
+
+    let editButton = document.createElement('button');
+    editButton.innerHTML = 'EDIT BOOK';
+    dialog.appendChild(editButton);
+
+    editButton.addEventListener('click', () => {
+        editBook(book);
+        editButton.remove();
+        discardChangesButton.remove();
+    })
+
+    let discardChangesButton = document.createElement('button');
+    discardChangesButton.innerHTML = 'CANCEL';
+    dialog.appendChild(discardChangesButton);
+
+    discardChangesButton.addEventListener('click', () => {
+        resetInputs();
+        editButton.remove();
+        discardChangesButton.remove();
+        dialog.close();
+    })
+}
+
+function editBook(book) {
+    let position = myLibrary.indexOf(book);
+    let editedBook = loadCredentials();
+    myLibrary[position] = editedBook;
+    loadBooks(myLibrary);
+    resetInputs();
+    addBook.hidden = false;
+}
+
+addBookToLibrary(theHobbit);
+addBookToLibrary(rur);
+loadBooks(myLibrary);
