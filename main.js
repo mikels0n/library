@@ -6,6 +6,8 @@ const openModal = document.querySelector('#open-modal')
 const closeButton = document.getElementById('close-button')
 const theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', '295', 'finished');
 const rur = new Book('R.U.R.', 'Karel Čapek', '102', 'not read yet');
+const addBookButtons = document.querySelector('.add-book-buttons')
+const captionDialog = document.querySelector('.caption-dialog')
 
 function Book(title, author, pages, read) {
     this.title = title;
@@ -125,10 +127,14 @@ function resetInputs() {
 }
 
 openModal.addEventListener('click', () => {
+    captionDialog.innerHTML = '';
+    captionDialog.innerHTML = 'Add book';
     dialog.showModal();
 })
 
 function editBookDialogPopUp(bookTitle) {
+    captionDialog.innerHTML = '';
+    captionDialog.innerHTML = 'Edit book';
     const book = myLibrary.find(b => b.title === bookTitle);
     dialog.showModal();
     document.getElementById('title').value = book.title;
@@ -144,8 +150,9 @@ function editBookDialogPopUp(bookTitle) {
     closeButton.hidden = true;
 
     let editButton = document.createElement('button');
-    editButton.innerHTML = 'EDIT BOOK';
-    dialog.appendChild(editButton);
+    editButton.innerHTML = 'EDIT';
+    editButton.classList.add('add-book')
+    addBookButtons.appendChild(editButton);
 
     editButton.addEventListener('click', () => {
         editBook(book);
@@ -155,7 +162,8 @@ function editBookDialogPopUp(bookTitle) {
 
     let discardChangesButton = document.createElement('button');
     discardChangesButton.innerHTML = 'CANCEL';
-    dialog.appendChild(discardChangesButton);
+    discardChangesButton.classList.add('close-button')
+    addBookButtons.appendChild(discardChangesButton);
 
     discardChangesButton.addEventListener('click', () => {
         resetInputs();
