@@ -69,6 +69,15 @@ function addBookCard(book) {
         loadBooks(myLibrary);
     });
 
+    let toggleReadButton = document.createElement('button');
+    toggleReadButton.innerHTML = 'TOGGLE READ';
+    toggleReadButton.classList.add('toggle-button');
+    toggleReadButton.addEventListener('click', () => {
+        toggleRead(book);
+        readDiv.innerHTML = book.read;
+        console.log(myLibrary);
+    });
+
     libraryContainer.appendChild(cardDiv);
     cardDiv.appendChild(titleDiv);
     cardDiv.appendChild(authorDiv);
@@ -76,6 +85,7 @@ function addBookCard(book) {
     cardDiv.appendChild(readDiv);
     cardDiv.appendChild(editButton);
     cardDiv.appendChild(deleteButton);
+    cardDiv.appendChild(toggleReadButton);
 
     dialog.close();
 }
@@ -134,6 +144,15 @@ function editBook(book) {
     loadBooks(myLibrary);
     resetInputs();
     addBook.hidden = false;
+}
+
+function toggleRead(book) {
+    if (book.read === 'finished') {
+        book.read = 'not read yet';
+    } 
+    else {
+        book.read = 'finished';
+    }
 }
 
 addBookToLibrary(theHobbit);
