@@ -1,4 +1,4 @@
-const myLibrary = [];
+let myLibrary = [];
 const libraryContainer = document.querySelector('.library-container')
 const addBook = document.querySelector('#add-book')
 const dialog = document.querySelector("dialog");
@@ -47,18 +47,26 @@ function addBookCard(book) {
     let authorDiv = document.createElement('div');
     let pagesDiv = document.createElement('div');
     let readDiv = document.createElement('div');
-    const editButton = document.createElement('button');
 
     titleDiv.innerHTML = book.title;
     authorDiv.innerHTML = book.author;
     pagesDiv.innerHTML = book.pages;
     readDiv.innerHTML = book.read;
 
+    let editButton = document.createElement('button');
     editButton.innerHTML = 'EDIT';
     editButton.classList.add('edit-button');
-    editButton.id = book.title;
     editButton.addEventListener('click', () => {
         editBookDialogPopUp(book.title)
+    });
+
+    let deleteButton = document.createElement('button');
+    deleteButton.innerHTML = 'DELETE';
+    deleteButton.classList.add('delete-button');
+    deleteButton.addEventListener('click', () => {
+        let position = myLibrary.indexOf(book);
+        myLibrary.splice(position,1);
+        loadBooks(myLibrary);
     });
 
     libraryContainer.appendChild(cardDiv);
@@ -67,6 +75,7 @@ function addBookCard(book) {
     cardDiv.appendChild(pagesDiv);
     cardDiv.appendChild(readDiv);
     cardDiv.appendChild(editButton);
+    cardDiv.appendChild(deleteButton);
 
     dialog.close();
 }
