@@ -4,8 +4,8 @@ const addBook = document.querySelector('#add-book')
 const dialog = document.querySelector("dialog");
 const openModal = document.querySelector('#open-modal')
 const closeButton = document.getElementById('close-button')
-const theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', '295 pages', 'finished');
-const rur = new Book('R.U.R.', 'Karel Čapek', '102 pages', 'not read yet');
+const theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', '295', 'finished');
+const rur = new Book('R.U.R.', 'Karel Čapek', '102', 'not read yet');
 
 function Book(title, author, pages, read) {
     this.title = title;
@@ -45,9 +45,13 @@ function addBookCard(book) {
     let cardDiv = document.createElement('div');
     cardDiv.classList.add('card');
     let titleDiv = document.createElement('div');
+    titleDiv.classList.add('title-text');
     let authorDiv = document.createElement('div');
+    authorDiv.classList.add('author-text')
     let pagesDiv = document.createElement('div');
+    pagesDiv.classList.add('pages-text')
     let readDiv = document.createElement('div');
+    readDiv.classList.add('read-text')
 
     titleDiv.innerHTML = book.title;
     authorDiv.innerHTML = book.author;
@@ -85,10 +89,25 @@ function addBookCard(book) {
     divButtons = document.createElement('div');
     divButtons.classList.add('div-buttons');
 
+    let authorLabel = document.createElement('div');
+    let pagesLabel= document.createElement('div');
+    let readLabel= document.createElement('div');
+
+    authorLabel.innerHTML = 'Author:'
+    pagesLabel.innerHTML = 'Number of pages:'
+    readLabel.innerHTML = 'Status:'
+
+    authorLabel.classList.add('label-card');
+    pagesLabel.classList.add('label-card');
+    readLabel.classList.add('label-card');
+
     libraryContainer.appendChild(cardDiv);
     cardDiv.appendChild(titleDiv);
+    cardDiv.appendChild(authorLabel);
     cardDiv.appendChild(authorDiv);
+    cardDiv.appendChild(pagesLabel);
     cardDiv.appendChild(pagesDiv);
+    cardDiv.appendChild(readLabel);
     cardDiv.appendChild(readDiv);
     cardDiv.appendChild(divButtons);
     divButtons.appendChild(editButton);
