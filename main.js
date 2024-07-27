@@ -71,7 +71,7 @@ function addBookCard(book) {
     });
 
     let toggleReadButton = document.createElement('button');
-    toggleReadButton.innerHTML = 'TOGGLE READ';
+    toggleReadButton.innerHTML = 'READ';
     toggleReadButton.classList.add('toggle-button');
     toggleReadButton.addEventListener('click', () => {
         toggleRead(book);
@@ -82,14 +82,18 @@ function addBookCard(book) {
         dialog.close();
     })
 
+    divButtons = document.createElement('div');
+    divButtons.classList.add('div-buttons');
+
     libraryContainer.appendChild(cardDiv);
     cardDiv.appendChild(titleDiv);
     cardDiv.appendChild(authorDiv);
     cardDiv.appendChild(pagesDiv);
     cardDiv.appendChild(readDiv);
-    cardDiv.appendChild(editButton);
-    cardDiv.appendChild(deleteButton);
-    cardDiv.appendChild(toggleReadButton)
+    cardDiv.appendChild(divButtons);
+    divButtons.appendChild(editButton);
+    divButtons.appendChild(deleteButton);
+    divButtons.appendChild(toggleReadButton)
 
     dialog.close();
 }
